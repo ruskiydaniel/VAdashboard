@@ -2,16 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectGroup,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectLabel,
-  SelectItem,
-  SelectSeparator
-} from "@/components/ui/select"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 
 const AdministrativeTools = () => {
   return (
@@ -25,9 +16,13 @@ const AdministrativeTools = () => {
             <Label htmlFor="task-assignment">Task Assignment</Label>
             <div className="flex space-x-2">
               <Select>
-                <option>Select VA</option>
-                <option>John Doe</option>
-                <option>Jane Smith</option>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select VA" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="john">John Doe</SelectItem>
+                  <SelectItem value="jane">Jane Smith</SelectItem>
+                </SelectContent>
               </Select>
               <Input id="task-assignment" placeholder="Enter task description" />
               <Button>Assign</Button>
@@ -37,15 +32,23 @@ const AdministrativeTools = () => {
             <Label htmlFor="priority-setting">Priority Setting</Label>
             <div className="flex space-x-2">
               <Select>
-                <option>Select Task</option>
-                <option>Content Creation</option>
-                <option>Data Entry</option>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Task" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="content">Content Creation</SelectItem>
+                  <SelectItem value="data">Data Entry</SelectItem>
+                </SelectContent>
               </Select>
               <Select>
-                <option>Set Priority</option>
-                <option>High</option>
-                <option>Medium</option>
-                <option>Low</option>
+                <SelectTrigger>
+                  <SelectValue placeholder="Set Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                </SelectContent>
               </Select>
               <Button>Update</Button>
             </div>
@@ -54,9 +57,13 @@ const AdministrativeTools = () => {
             <Label htmlFor="schedule-management">Schedule Management</Label>
             <div className="flex space-x-2">
               <Select>
-                <option>Select VA</option>
-                <option>John Doe</option>
-                <option>Jane Smith</option>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select VA" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="john">John Doe</SelectItem>
+                  <SelectItem value="jane">Jane Smith</SelectItem>
+                </SelectContent>
               </Select>
               <Input id="schedule-management" type="date" />
               <Button>Set Schedule</Button>
@@ -66,9 +73,13 @@ const AdministrativeTools = () => {
             <Label htmlFor="performance-review">Performance Review</Label>
             <div className="flex space-x-2">
               <Select>
-                <option>Select VA</option>
-                <option>John Doe</option>
-                <option>Jane Smith</option>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select VA" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="john">John Doe</SelectItem>
+                  <SelectItem value="jane">Jane Smith</SelectItem>
+                </SelectContent>
               </Select>
               <Button>Generate Report</Button>
             </div>

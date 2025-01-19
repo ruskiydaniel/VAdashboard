@@ -1,8 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 
+interface Agent {
+  id: number;
+  name: string;
+}
+
+interface ChartData {
+  name: string;
+  value: number;
+}
+
+interface AgentData {
+  timeData: ChartData[];
+  taskData: ChartData[];
+}
+
+interface AgentDataMap {
+  [key: number]: AgentData;
+}
+
+interface TimeTaskManagementProps {
+  selectedAgent: Agent | null;
+}
+
 // Sample data for team and individual agents
-const teamData = {
+const teamData: AgentData = {
   timeData: [
     { name: 'Billable', value: 32 },
     { name: 'Non-billable', value: 8 },
@@ -16,7 +39,7 @@ const teamData = {
   ],
 }
 
-const agentData = {
+const agentData: AgentDataMap = {
   1: {
     timeData: [
       { name: 'Billable', value: 35 },
@@ -86,79 +109,58 @@ const agentData = {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
-const TimeTaskManagement = ({ selectedAgent }) => {
+const TimeTaskManagement = ({ selectedAgent }: TimeTaskManagementProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Time Tracking</CardTitle>
+          <CardTitle>Time Distribution</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="h-[200px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data.timeData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {data.timeData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex justify-center space-x-4">
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-[#0088FE] rounded-full mr-2"></div>
-              <span>Billable</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-[#00C49F] rounded-full mr-2"></div>
-              <span>Non-billable</span>
-            </div>
-          </div>
+        <CardContent className="flex justify-center">
+          <ResponsiveContainer width={200} height={200}>
+            <PieChart>
+              <Pie
+                data={data.timeData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data.timeData.map((entry: ChartData, index: number) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Task Distribution</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="h-[200px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data.taskData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {data.taskData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex flex-wrap justify-center mt-4">
-            {data.taskData.map((entry, index) => (
-              <div key={entry.name} className="flex items-center mr-4 mb-2">
-                <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-                <span className="text-sm">{entry.name}</span>
-              </div>
-            ))}
-          </div>
+        <CardContent className="flex justify-center">
+          <ResponsiveContainer width={200} height={200}>
+            <PieChart>
+              <Pie
+                data={data.taskData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data.taskData.map((entry: ChartData, index: number) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>

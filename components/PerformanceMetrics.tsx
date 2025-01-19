@@ -1,14 +1,28 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
+interface MetricsData {
+  taskCompletionRate: number
+  responseTime: number
+  efficiencyScore: number
+}
+
+interface Agent {
+  id: number
+}
+
+interface PerformanceMetricsProps {
+  selectedAgent: Agent | null
+}
+
 // Sample data for team and individual agents
-const teamData = {
+const teamData: MetricsData = {
   taskCompletionRate: 96,
   responseTime: 14,
   efficiencyScore: 94,
 }
 
-const agentData = {
+const agentData: Record<number, MetricsData> = {
   1: { taskCompletionRate: 98, responseTime: 12, efficiencyScore: 96 },
   2: { taskCompletionRate: 95, responseTime: 15, efficiencyScore: 93 },
   3: { taskCompletionRate: 97, responseTime: 13, efficiencyScore: 95 },
@@ -16,7 +30,7 @@ const agentData = {
   5: { taskCompletionRate: 96, responseTime: 14, efficiencyScore: 94 },
 }
 
-const PerformanceMetrics = ({ selectedAgent }) => {
+const PerformanceMetrics = ({ selectedAgent }: PerformanceMetricsProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (

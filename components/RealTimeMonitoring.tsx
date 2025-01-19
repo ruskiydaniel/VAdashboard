@@ -1,8 +1,35 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
+interface VAStatus {
+  name: string
+  status: 'Online' | 'Offline'
+  currentTask: string
+  lastActive: string
+}
+
+interface TaskProgress {
+  task: string
+  deadline: string
+  priority: 'High' | 'Medium' | 'Low'
+  status: 'In Progress' | 'Not Started' | 'Completed'
+}
+
+interface MonitoringData {
+  vaStatus: VAStatus[]
+  taskProgress: TaskProgress[]
+}
+
+interface Agent {
+  id: number
+}
+
+interface RealTimeMonitoringProps {
+  selectedAgent: Agent | null
+}
+
 // Sample data for team and individual agents
-const teamData = {
+const teamData: MonitoringData = {
   vaStatus: [
     { name: 'John Doe', status: 'Online', currentTask: 'Email Management', lastActive: '2 minutes ago' },
     { name: 'Jane Smith', status: 'Offline', currentTask: 'N/A', lastActive: '1 hour ago' },
@@ -15,7 +42,7 @@ const teamData = {
   ],
 }
 
-const agentData = {
+const agentData: Record<number, MonitoringData> = {
   1: {
     vaStatus: [
       { name: 'John Doe', status: 'Online', currentTask: 'Email Management', lastActive: '2 minutes ago' },
@@ -28,7 +55,7 @@ const agentData = {
   // ... (similar data for agents 2-5)
 }
 
-const RealTimeMonitoring = ({ selectedAgent }) => {
+const RealTimeMonitoring = ({ selectedAgent }: RealTimeMonitoringProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (

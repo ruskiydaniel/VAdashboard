@@ -12,9 +12,14 @@ import CommunicationUpdates from './CommunicationUpdates'
 import AdministrativeTools from './AdministrativeTools'
 import TeamAgentSelector from './TeamAgentSelector'
 
+interface Agent {
+  id: number
+  name: string
+}
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('performance')
-  const [selectedAgent, setSelectedAgent] = useState(null)
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
 
   const renderContent = () => {
     switch (activeTab) {
@@ -33,7 +38,7 @@ const Dashboard = () => {
       case 'communication':
         return <CommunicationUpdates selectedAgent={selectedAgent} />
       case 'admin':
-        return <AdministrativeTools selectedAgent={selectedAgent} />
+        return <AdministrativeTools />
       default:
         return <PerformanceMetrics selectedAgent={selectedAgent} />
     }
@@ -46,7 +51,7 @@ const Dashboard = () => {
         <div className="container mx-auto px-6 py-8">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-3xl font-semibold text-gray-700">VA Performance Dashboard</h3>
-            <TeamAgentSelector selectedAgent={selectedAgent} setSelectedAgent={setSelectedAgent} />
+            <TeamAgentSelector setSelectedAgent={setSelectedAgent} />
           </div>
           {renderContent()}
         </div>

@@ -1,6 +1,11 @@
 import { Home, Clock, DollarSign, Smile, Activity, TrendingUp, MessageCircle, Settings } from 'lucide-react'
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+interface SidebarProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
   const menuItems = [
     { id: 'performance', icon: Home, label: 'Performance' },
     { id: 'timeTask', icon: Clock, label: 'Time & Task' },

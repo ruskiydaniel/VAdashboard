@@ -1,8 +1,12 @@
-import { useState } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+interface Agent {
+  id: number
+  name: string
+}
+
 // Sample data for agents
-const agents = [
+const agents: Agent[] = [
   { id: 1, name: "John Doe" },
   { id: 2, name: "Jane Smith" },
   { id: 3, name: "Bob Johnson" },
@@ -10,9 +14,13 @@ const agents = [
   { id: 5, name: "Charlie Brown" },
 ]
 
-const TeamAgentSelector = ({ selectedAgent, setSelectedAgent }) => {
-  const handleChange = (value) => {
-    setSelectedAgent(value === "team" ? null : agents.find(agent => agent.id === parseInt(value)))
+interface TeamAgentSelectorProps {
+  setSelectedAgent: (agent: Agent | null) => void
+}
+
+const TeamAgentSelector = ({ setSelectedAgent }: TeamAgentSelectorProps) => {
+  const handleChange = (value: string) => {
+    setSelectedAgent(value === "team" ? null : agents.find(agent => agent.id === parseInt(value)) || null)
   }
 
   return (

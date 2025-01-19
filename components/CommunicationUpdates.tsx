@@ -1,15 +1,29 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
+interface Update {
+  type: string
+  message: string
+  time: string
+}
+
+interface Agent {
+  id: number
+}
+
+interface CommunicationUpdatesProps {
+  selectedAgent: Agent | null
+}
+
 // Sample data for team and individual agents
-const teamUpdates = [
+const teamUpdates: Update[] = [
   { type: 'Task Completion', message: 'Content creation task completed', time: '5 minutes ago' },
   { type: 'Deadline Alert', message: 'Research task due in 2 hours', time: '30 minutes ago' },
   { type: 'Client Message', message: 'New message from Client A', time: '1 hour ago' },
   { type: 'Performance Update', message: 'Task completion rate increased by 2%', time: '2 hours ago' },
 ]
 
-const agentUpdates = {
+const agentUpdates: Record<number, Update[]> = {
   1: [
     { type: 'Task Completion', message: 'Email management task completed', time: '10 minutes ago' },
     { type: 'Client Message', message: 'New message from Client B', time: '45 minutes ago' },
@@ -37,7 +51,7 @@ const agentUpdates = {
   ],
 }
 
-const CommunicationUpdates = ({ selectedAgent }) => {
+const CommunicationUpdates = ({ selectedAgent }: CommunicationUpdatesProps) => {
   const updates = selectedAgent ? agentUpdates[selectedAgent.id] : teamUpdates
 
   return (

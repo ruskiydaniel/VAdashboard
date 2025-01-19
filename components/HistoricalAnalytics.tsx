@@ -1,8 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
+interface PerformanceData {
+  month: string
+  taskCompletion: number
+  clientSatisfaction: number
+  revenue: number
+}
+
+interface Agent {
+  id: number
+}
+
+interface HistoricalAnalyticsProps {
+  selectedAgent: Agent | null
+}
+
 // Sample data for team and individual agents
-const teamData = [
+const teamData: PerformanceData[] = [
   { month: 'Jan', taskCompletion: 92, clientSatisfaction: 95, revenue: 3200 },
   { month: 'Feb', taskCompletion: 94, clientSatisfaction: 96, revenue: 3400 },
   { month: 'Mar', taskCompletion: 95, clientSatisfaction: 97, revenue: 3600 },
@@ -11,7 +26,7 @@ const teamData = [
   { month: 'Jun', taskCompletion: 97, clientSatisfaction: 98, revenue: 4000 },
 ]
 
-const agentData = {
+const agentData: Record<number, PerformanceData[]> = {
   1: [
     { month: 'Jan', taskCompletion: 93, clientSatisfaction: 96, revenue: 800 },
     { month: 'Feb', taskCompletion: 95, clientSatisfaction: 97, revenue: 850 },
@@ -54,7 +69,7 @@ const agentData = {
   ],
 }
 
-const HistoricalAnalytics = ({ selectedAgent }) => {
+const HistoricalAnalytics = ({ selectedAgent }: HistoricalAnalyticsProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (
