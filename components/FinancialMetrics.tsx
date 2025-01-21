@@ -1,29 +1,29 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-interface RevenueDataPoint {
-  month: string
-  revenue: number
-}
-
-interface MetricsData {
-  revenueData: RevenueDataPoint[]
-  monthlySavings: number
-  roi: number
-  costPerTask: number
-  efficiencyGains: number
-}
-
 interface Agent {
-  id: number
+  id: number;
+  name: string;
+}
+
+interface FinancialData {
+  revenueData: Array<{ month: string; revenue: number }>;
+  monthlySavings: number;
+  roi: number;
+  costPerTask: number;
+  efficiencyGains: number;
+}
+
+interface AgentDataMap {
+  [key: number]: FinancialData;
 }
 
 interface FinancialMetricsProps {
-  selectedAgent: Agent | null
+  selectedAgent: Agent | null;
 }
 
 // Sample data for team and individual agents
-const teamData: MetricsData = {
+const teamData: FinancialData = {
   revenueData: [
     { month: 'Jan', revenue: 3200 },
     { month: 'Feb', revenue: 3400 },
@@ -37,7 +37,7 @@ const teamData: MetricsData = {
   efficiencyGains: 1800,
 }
 
-const agentData: Record<number, MetricsData> = {
+const agentData: AgentDataMap = {
   1: {
     revenueData: [
       { month: 'Jan', revenue: 800 },

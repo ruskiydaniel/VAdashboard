@@ -1,112 +1,108 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
-interface MetricsData {
-  taskCompletionRate: number
-  responseTime: number
-  efficiencyScore: number
+interface Agent {
+  id: number;
+  name: string;
 }
 
-interface Agent {
-  id: number
+interface PerformanceData {
+  taskCompletion: number;
+  responseTime: number;
+  accuracy: number;
+  productivity: number;
+}
+
+interface AgentDataMap {
+  [key: number]: PerformanceData;
 }
 
 interface PerformanceMetricsProps {
-  selectedAgent: Agent | null
+  selectedAgent: Agent | null;
 }
 
 // Sample data for team and individual agents
-const teamData: MetricsData = {
-  taskCompletionRate: 96,
-  responseTime: 14,
-  efficiencyScore: 94,
+const teamData: PerformanceData = {
+  taskCompletion: 95,
+  responseTime: 92,
+  accuracy: 97,
+  productivity: 94,
 }
 
-const agentData: Record<number, MetricsData> = {
-  1: { taskCompletionRate: 98, responseTime: 12, efficiencyScore: 96 },
-  2: { taskCompletionRate: 95, responseTime: 15, efficiencyScore: 93 },
-  3: { taskCompletionRate: 97, responseTime: 13, efficiencyScore: 95 },
-  4: { taskCompletionRate: 94, responseTime: 16, efficiencyScore: 92 },
-  5: { taskCompletionRate: 96, responseTime: 14, efficiencyScore: 94 },
+const agentData: AgentDataMap = {
+  1: {
+    taskCompletion: 96,
+    responseTime: 93,
+    accuracy: 98,
+    productivity: 95,
+  },
+  2: {
+    taskCompletion: 94,
+    responseTime: 91,
+    accuracy: 96,
+    productivity: 93,
+  },
+  3: {
+    taskCompletion: 93,
+    responseTime: 90,
+    accuracy: 95,
+    productivity: 92,
+  },
+  4: {
+    taskCompletion: 92,
+    responseTime: 89,
+    accuracy: 94,
+    productivity: 91,
+  },
+  5: {
+    taskCompletion: 91,
+    responseTime: 88,
+    accuracy: 93,
+    productivity: 90,
+  },
 }
 
 const PerformanceMetrics = ({ selectedAgent }: PerformanceMetricsProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Task Completion Rate</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{data.taskCompletionRate}%</div>
-          <Progress value={data.taskCompletionRate} className="mt-2" />
-          <p className="text-xs text-muted-foreground mt-2">
-            {selectedAgent ? `+${data.taskCompletionRate - teamData.taskCompletionRate}% above team average` : "+2.1% from last month"}
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Response Time</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{data.responseTime} minutes</div>
-          <p className="text-xs text-muted-foreground mt-2">
-            {selectedAgent ? `${teamData.responseTime - data.responseTime} minutes faster than team average` : "3 minutes faster than SLA target"}
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Efficiency Score</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{data.efficiencyScore}%</div>
-          <Progress value={data.efficiencyScore} className="mt-2" />
-          <p className="text-xs text-muted-foreground mt-2">
-            {selectedAgent ? `+${data.efficiencyScore - teamData.efficiencyScore}% above team average` : "+1.5% above benchmark"}
-          </p>
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Performance Metrics</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-6">
+          <div>
+            <div className="flex justify-between mb-2">
+              <span>Task Completion Rate</span>
+              <span>{data.taskCompletion}%</span>
+            </div>
+            <Progress value={data.taskCompletion} />
+          </div>
+          <div>
+            <div className="flex justify-between mb-2">
+              <span>Response Time</span>
+              <span>{data.responseTime}%</span>
+            </div>
+            <Progress value={data.responseTime} />
+          </div>
+          <div>
+            <div className="flex justify-between mb-2">
+              <span>Accuracy</span>
+              <span>{data.accuracy}%</span>
+            </div>
+            <Progress value={data.accuracy} />
+          </div>
+          <div>
+            <div className="flex justify-between mb-2">
+              <span>Productivity</span>
+              <span>{data.productivity}%</span>
+            </div>
+            <Progress value={data.productivity} />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

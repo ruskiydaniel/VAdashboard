@@ -1,112 +1,106 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-interface VAStatus {
-  name: string
-  status: 'Online' | 'Offline'
-  currentTask: string
-  lastActive: string
-}
-
-interface TaskProgress {
-  task: string
-  deadline: string
-  priority: 'High' | 'Medium' | 'Low'
-  status: 'In Progress' | 'Not Started' | 'Completed'
+interface Agent {
+  id: number;
+  name: string;
 }
 
 interface MonitoringData {
-  vaStatus: VAStatus[]
-  taskProgress: TaskProgress[]
+  status: string;
+  currentTask: string;
+  timeOnTask: string;
+  nextTask: string;
+  lastActivity: string;
 }
 
-interface Agent {
-  id: number
+interface AgentDataMap {
+  [key: number]: MonitoringData;
 }
 
 interface RealTimeMonitoringProps {
-  selectedAgent: Agent | null
+  selectedAgent: Agent | null;
 }
 
 // Sample data for team and individual agents
 const teamData: MonitoringData = {
-  vaStatus: [
-    { name: 'John Doe', status: 'Online', currentTask: 'Email Management', lastActive: '2 minutes ago' },
-    { name: 'Jane Smith', status: 'Offline', currentTask: 'N/A', lastActive: '1 hour ago' },
-    { name: 'Bob Johnson', status: 'Online', currentTask: 'Research', lastActive: '5 minutes ago' },
-  ],
-  taskProgress: [
-    { task: 'Content Creation', deadline: '2023-07-15', priority: 'High', status: 'In Progress' },
-    { task: 'Data Entry', deadline: '2023-07-20', priority: 'Medium', status: 'Not Started' },
-    { task: 'Customer Support', deadline: '2023-07-10', priority: 'High', status: 'Completed' },
-  ],
+  status: "Active",
+  currentTask: "Multiple Tasks",
+  timeOnTask: "Various",
+  nextTask: "Upcoming Tasks",
+  lastActivity: "1 minute ago",
 }
 
-const agentData: Record<number, MonitoringData> = {
+const agentData: AgentDataMap = {
   1: {
-    vaStatus: [
-      { name: 'John Doe', status: 'Online', currentTask: 'Email Management', lastActive: '2 minutes ago' },
-    ],
-    taskProgress: [
-      { task: 'Content Creation', deadline: '2023-07-15', priority: 'High', status: 'In Progress' },
-      { task: 'Research', deadline: '2023-07-18', priority: 'Medium', status: 'Not Started' },
-    ],
+    status: "Active",
+    currentTask: "Email Management",
+    timeOnTask: "45 minutes",
+    nextTask: "Content Creation",
+    lastActivity: "2 minutes ago",
   },
-  // ... (similar data for agents 2-5)
+  2: {
+    status: "Break",
+    currentTask: "Research",
+    timeOnTask: "30 minutes",
+    nextTask: "Data Entry",
+    lastActivity: "5 minutes ago",
+  },
+  3: {
+    status: "Active",
+    currentTask: "Customer Support",
+    timeOnTask: "15 minutes",
+    nextTask: "Report Generation",
+    lastActivity: "1 minute ago",
+  },
+  4: {
+    status: "Meeting",
+    currentTask: "Client Call",
+    timeOnTask: "20 minutes",
+    nextTask: "Task Planning",
+    lastActivity: "3 minutes ago",
+  },
+  5: {
+    status: "Active",
+    currentTask: "Social Media",
+    timeOnTask: "25 minutes",
+    nextTask: "Content Review",
+    lastActivity: "4 minutes ago",
+  },
 }
 
 const RealTimeMonitoring = ({ selectedAgent }: RealTimeMonitoringProps) => {
   const data = selectedAgent ? agentData[selectedAgent.id] : teamData
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>VA Status Tracking</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {data.vaStatus.map((va, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{va.name}</p>
-                  <p className="text-sm text-muted-foreground">{va.currentTask}</p>
-                </div>
-                <div className="text-right">
-                  <Badge variant={va.status === 'Online' ? 'default' : 'secondary'}>
-                    {va.status}
-                  </Badge>
-                  <p className="text-xs text-muted-foreground mt-1">Last active: {va.lastActive}</p>
-                </div>
-              </div>
-            ))}
+    <Card>
+      <CardHeader>
+        <CardTitle>Real-Time Monitoring</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">Status</span>
+            <Badge variant={data.status.toLowerCase() === "active" ? "default" : "secondary"}>
+              {data.status}
+            </Badge>
           </div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Task Progress Tracking</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {data.taskProgress.map((task, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{task.task}</p>
-                  <p className="text-sm text-muted-foreground">Deadline: {task.deadline}</p>
-                </div>
-                <div className="text-right">
-                  <Badge variant={task.priority === 'High' ? 'destructive' : 'default'}>
-                    {task.priority}
-                  </Badge>
-                  <p className="text-xs text-muted-foreground mt-1">{task.status}</p>
-                </div>
-              </div>
-            ))}
+          <div>
+            <span className="text-sm font-medium">Current Task</span>
+            <p className="mt-1 text-sm">{data.currentTask}</p>
+            <p className="text-xs text-muted-foreground">Time on task: {data.timeOnTask}</p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+          <div>
+            <span className="text-sm font-medium">Next Task</span>
+            <p className="mt-1 text-sm">{data.nextTask}</p>
+          </div>
+          <div>
+            <span className="text-sm font-medium">Last Activity</span>
+            <p className="mt-1 text-sm">{data.lastActivity}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

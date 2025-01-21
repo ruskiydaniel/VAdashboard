@@ -1,35 +1,35 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
-interface MetricsData {
-  overallSatisfaction: number
-  responseQuality: number
-  communication: number
-  taskAccuracy: number
-}
-
-interface Agent {
-  id: number
-}
-
-interface ClientSatisfactionProps {
-  selectedAgent: Agent | null
+interface SatisfactionData {
+  overallSatisfaction: number;
+  responseQuality: number;
+  communication: number;
+  taskAccuracy: number;
 }
 
 // Sample data for team and individual agents
-const teamData: MetricsData = {
+const teamData: SatisfactionData = {
   overallSatisfaction: 98,
   responseQuality: 96,
   communication: 98,
   taskAccuracy: 97,
 }
 
-const agentData: Record<number, MetricsData> = {
+const agentData: { [key: number]: SatisfactionData } = {
   1: { overallSatisfaction: 99, responseQuality: 97, communication: 99, taskAccuracy: 98 },
   2: { overallSatisfaction: 97, responseQuality: 95, communication: 98, taskAccuracy: 96 },
   3: { overallSatisfaction: 98, responseQuality: 96, communication: 97, taskAccuracy: 98 },
   4: { overallSatisfaction: 96, responseQuality: 94, communication: 97, taskAccuracy: 95 },
   5: { overallSatisfaction: 98, responseQuality: 97, communication: 98, taskAccuracy: 97 },
+}
+
+interface Agent {
+  id: number;
+}
+
+interface ClientSatisfactionProps {
+  selectedAgent?: Agent | null;
 }
 
 const ClientSatisfaction = ({ selectedAgent }: ClientSatisfactionProps) => {

@@ -1,18 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-interface Update {
-  type: string
-  message: string
-  time: string
+interface Agent {
+  id: number;
+  name: string;
 }
 
-interface Agent {
-  id: number
+interface Update {
+  type: string;
+  message: string;
+  time: string;
 }
 
 interface CommunicationUpdatesProps {
-  selectedAgent: Agent | null
+  selectedAgent: Agent | null;
+}
+
+type AgentUpdates = {
+  [key: number]: Update[];
 }
 
 // Sample data for team and individual agents
@@ -23,7 +28,7 @@ const teamUpdates: Update[] = [
   { type: 'Performance Update', message: 'Task completion rate increased by 2%', time: '2 hours ago' },
 ]
 
-const agentUpdates: Record<number, Update[]> = {
+const agentUpdates: AgentUpdates = {
   1: [
     { type: 'Task Completion', message: 'Email management task completed', time: '10 minutes ago' },
     { type: 'Client Message', message: 'New message from Client B', time: '45 minutes ago' },
@@ -61,7 +66,7 @@ const CommunicationUpdates = ({ selectedAgent }: CommunicationUpdatesProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {updates.map((update, index) => (
+          {updates.map((update: Update, index: number) => (
             <div key={index} className="flex items-start space-x-4">
               <Badge variant="outline">{update.type}</Badge>
               <div>

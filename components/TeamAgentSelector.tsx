@@ -1,8 +1,8 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface Agent {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 // Sample data for agents
@@ -15,23 +15,26 @@ const agents: Agent[] = [
 ]
 
 interface TeamAgentSelectorProps {
-  setSelectedAgent: (agent: Agent | null) => void
+  selectedAgent: Agent | null;
+  setSelectedAgent: (agent: Agent | null) => void;
 }
 
-const TeamAgentSelector = ({ setSelectedAgent }: TeamAgentSelectorProps) => {
+const TeamAgentSelector = ({ selectedAgent, setSelectedAgent }: TeamAgentSelectorProps) => {
   const handleChange = (value: string) => {
-    setSelectedAgent(value === "team" ? null : agents.find(agent => agent.id === parseInt(value)) || null)
+    setSelectedAgent(value === "team" ? null : agents.find((agent) => agent.id === Number.parseInt(value)) || null)
   }
 
   return (
-    <Select onValueChange={handleChange} defaultValue="team">
-      <SelectTrigger className="w-[180px]">
+    <Select onValueChange={handleChange} defaultValue="team" value={selectedAgent?.id.toString() || "team"}>
+      <SelectTrigger className="w-[140px] sm:w-[180px] bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg border border-gray-200 rounded-md shadow-sm">
         <SelectValue placeholder="Select view" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="team">Full Team</SelectItem>
         {agents.map((agent) => (
-          <SelectItem key={agent.id} value={agent.id.toString()}>{agent.name}</SelectItem>
+          <SelectItem key={agent.id} value={agent.id.toString()}>
+            {agent.name}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>
