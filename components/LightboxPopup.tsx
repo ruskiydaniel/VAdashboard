@@ -1,55 +1,67 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import ReactDOM from "react-dom"
-import { X } from "lucide-react"
+import { 
+  X, 
+  Home, 
+  Clock, 
+  DollarSign, 
+  Smile, 
+  Activity, 
+  TrendingUp, 
+  MessageCircle, 
+  Clipboard, 
+  Settings,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 
 const slides = [
   {
     title: "Performance",
-    image: "/images/performance-highlight.png",
+    icon: Home,
     description: "View key performance metrics for your team or individual VAs.",
   },
   {
     title: "Time & Task",
-    image: "/images/time-task-highlight.png",
+    icon: Clock,
     description: "Analyze time allocation and task distribution across your team.",
   },
   {
     title: "Financial",
-    image: "/images/financial-highlight.png",
+    icon: DollarSign,
     description: "Track revenue, cost savings, and other financial metrics.",
   },
   {
     title: "Satisfaction",
-    image: "/images/satisfaction-highlight.png",
+    icon: Smile,
     description: "Monitor client satisfaction scores and feedback.",
   },
   {
     title: "Real-Time",
-    image: "/images/real-time-highlight.png",
+    icon: Activity,
     description: "Get live updates on VA status and task progress.",
   },
   {
     title: "Historical",
-    image: "/images/historical-highlight.png",
+    icon: TrendingUp,
     description: "View trends and patterns in performance over time.",
   },
   {
     title: "Communication",
-    image: "/images/communication-highlight.png",
+    icon: MessageCircle,
     description: "Stay updated with the latest team communications and updates.",
   },
   {
     title: "Task Management",
-    image: "/images/task-management-highlight.png",
+    icon: Clipboard,
     description: "Assign, track, and manage tasks for your virtual assistants.",
   },
   {
     title: "Admin",
-    image: "/images/admin-highlight.png",
-    description: "Access administrative tools and settings for your dashboard.",
+    icon: Settings,
+    description: "Configure system settings and manage user permissions.",
   },
 ]
 
@@ -59,51 +71,63 @@ interface LightboxPopupProps {
 
 const LightboxPopup: React.FC<LightboxPopupProps> = ({ onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setPortalRoot(document.body)
+    setMounted(true)
+    return () => setMounted(false)
   }, [])
 
   const handleNext = () => {
-    setCurrentSlide((prev) => Math.min(prev + 1, slides.length - 1))
+    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
   }
 
-  const handleClose = () => {
-    onClose()
+  const handlePrevious = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
   }
 
-  if (!portalRoot) return null
+  if (!mounted) return null
+
+  const slide = slides[currentSlide]
+  const Icon = slide.icon
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 relative">
-        <button onClick={handleClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-          <X size={24} />
-        </button>
-        <div className="p-8">
-          <h2 className="text-2xl font-bold mb-4">{slides[currentSlide].title}</h2>
-          <div className="mb-6 bg-gray-100 rounded-lg overflow-hidden relative" style={{ height: '400px' }}>
-            <Image
-              src={slides[currentSlide].image || "/placeholder.svg"}
-              alt={`${slides[currentSlide].title} section`}
-              fill
-              style={{ objectFit: 'contain' }}
-              priority
-            />
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl max-w-2xl w-full p-6 relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-4"
+          onClick={onClose}
+        >
+          <X className="h-6 w-6" />
+        </Button>
+        
+        <div className="flex flex-col items-center space-y-6 pt-8">
+          <div className="w-24 h-24 flex items-center justify-center bg-blue-100 rounded-full">
+            <Icon className="w-12 h-12 text-blue-600" />
           </div>
-          <p className="text-gray-600 mb-6">{slides[currentSlide].description}</p>
-          <div className="flex justify-between">
-            {currentSlide < slides.length - 1 ? (
-              <Button onClick={handleNext}>Next</Button>
-            ) : (
-              <Button onClick={handleClose}>Test it out</Button>
-            )}
+          
+          <div className="text-center">
+            <h2 className="text-2xl font-semibold mb-2">{slide.title}</h2>
+            <p className="text-gray-600">{slide.description}</p>
+          </div>
+
+          <div className="flex items-center space-x-4 mt-6">
+            <Button variant="outline" size="icon" onClick={handlePrevious}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="text-sm text-gray-500">
+              {currentSlide + 1} of {slides.length}
+            </span>
+            <Button variant="outline" size="icon" onClick={handleNext}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
     </div>,
-    portalRoot,
+    document.body
   )
 }
 
