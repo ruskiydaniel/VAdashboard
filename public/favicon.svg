@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="8" fill="#74BCC8"/>
+  
+  <!-- Circular 360 Path -->
+  <path 
+    d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z"
+    stroke="#B4F8E3"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  
+  <!-- Global Connection Lines -->
+  <path
+    d="M16 4C19.7 4 22.5 9.37258 22.5 16C22.5 22.6274 19.7 28 16 28"
+    stroke="#B4F8E3"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  
+  <!-- Connection Points -->
+  <circle cx="10" cy="12" r="2" fill="#FFFFFF"/>
+  <circle cx="22" cy="20" r="2" fill="#FFFFFF"/>
+  
+  <!-- Connection Line -->
+  <path
+    d="M10 12L22 20"
+    stroke="#FFFFFF"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-dasharray="2 2"
+  />
+  
+</svg> 
